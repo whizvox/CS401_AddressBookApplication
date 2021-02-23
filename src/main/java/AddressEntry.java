@@ -4,7 +4,7 @@ import java.util.Objects;
  * A data class for storing elements of an address entry.
  *
  * @author Corneilious Eanes
- * @since February 22, 2021
+ * @since February 23, 2021
  */
 public class AddressEntry {
 
@@ -44,19 +44,19 @@ public class AddressEntry {
   /**
    * Creates a string representation of all the data points in this entry. The output will be formatted like this:
    * <pre>
-   * ${lastName}, ${firstName}
-   *     ${street}
-   *     ${city}, ${state} ${zip}
-   *     ${email}
-   *     ${phone}
+   *${lastName}, ${firstName}
+   *    ${street}
+   *    ${city}, ${state} ${zip}
+   *    ${email}
+   *    ${phone}
    * </pre>
    * Example:
    * <pre>
-   * Smith, John
-   *     123 Main Street
-   *     San Francisco, CA 12345
-   *     john.smith@example.com
-   *     555-555-1234
+   *Smith, John
+   *    123 Main Street
+   *    San Francisco, CA 12345
+   *    john.smith@example.com
+   *    555-555-1234
    * </pre>
    * @return A fully string-formatted address entry.
    * @see Address#toString()
@@ -71,19 +71,19 @@ public class AddressEntry {
   }
 
   /**
-   * To test for value or reference equality. Will return true if all member fields equals that of the other object,
-   * assuming it's of the same instance type.
-   * @param o The object to test against.
-   * @return Whether the specified object refers to the same reference as this object or if all of its fields equals
-   * that of this object.
+   * To test for value or reference equality.
+   * @param obj The object to test against.
+   * @return Whether the specified object refers to the same reference as this object or if the specified object is an
+   * instance of this object and its <code>firstName</code>, <code>lastName</code>, <code>address</code>,
+   * <code>phone</code>, and <code>email</code> all equal that of this object. Will return false otherwise.
    */
   @Override
-  public boolean equals(Object o) {
-    if (o == this) {
+  public boolean equals(Object obj) {
+    if (obj == this) {
       return true;
     }
-    if (o instanceof AddressEntry) {
-      AddressEntry entry = (AddressEntry) o;
+    if (obj instanceof AddressEntry) {
+      AddressEntry entry = (AddressEntry) obj;
       return Objects.equals(entry.firstName, firstName) && Objects.equals(entry.lastName, lastName) &&
         Objects.equals(entry.address, address) && Objects.equals(entry.phone, phone) &&
         Objects.equals(entry.email, email);

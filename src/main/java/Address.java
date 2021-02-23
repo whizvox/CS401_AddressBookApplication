@@ -3,7 +3,7 @@ import java.util.Objects;
 /**
  * The address class, used to store address-related fields such as street address, city name, state code, and zip code.
  * @author Corneilious Eanes
- * @since February 22, 2021
+ * @since February 23, 2021
  */
 public class Address {
 
@@ -62,15 +62,15 @@ public class Address {
 
   /**
    * Used to test for either reference or value equality.
-   * @param o The object to compare against.
+   * @param obj The object to compare against.
    * @return True if either the specified object refers to the same reference as <code>this</code>, or if the specified
-   * object's values of {@link #street}, {@link #city}, {@link #state}, {@link #zip} equals that of this object's. Will
-   * return false otherwise.
+   * object's values of <code>street</code>, <code>city</code>, <code>state</code>, and <code>zip</code> equals that of
+   * this object's. Will return false otherwise.
    */
   @Override
-  public boolean equals(Object o) {
-    if (o instanceof Address) {
-      Address address = (Address) o;
+  public boolean equals(Object obj) {
+    if (obj instanceof Address) {
+      Address address = (Address) obj;
       return Objects.equals(address.street, street) && Objects.equals(address.city, city) &&
         Objects.equals(address.state, state) && address.zip == zip;
     }

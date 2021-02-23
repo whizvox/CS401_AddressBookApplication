@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
  * Stores a list of {@link AddressEntry} objects and several helper methods to manipulate this list, retrieve data from
  * it, or populate it from reading a file.
  * @author Corneilious Eanes
- * @since February 22, 2021
+ * @since February 23, 2021
  */
 public class AddressBook {
 
@@ -80,15 +80,18 @@ public class AddressBook {
    * according to the following specifications:
    * <ul>
    *   <li>File must be stored in a UTF-8-friendly encoding.</li>
-   *   <li>Each address entry is consisted of 7 lines, each ending with a line-separating character: <ol>
-   *     <li><code>${firstName}</code></li>
-   *     <li><code>${lastName}</code></li>
-   *     <li><code>${street}</code></li>
-   *     <li><code>${city}</code></li>
-   *     <li><code>${state} ${zip}</code></li>
-   *     <li><code>${phone}</code></li>
-   *     <li><code>${email}</code></li>
-   *   </ol></li>
+   *   <li>Each address entry is consisted of 8 lines, each ending with a line-separating character:
+   *   <pre>
+   *$firstName
+   *$lastName
+   *$street
+   *$city
+   *$state
+   *$zip
+   *$email
+   *$phone
+   *   </pre>
+   *   </li>
    * </ul>
    * @param fileName The path to the file to be read.
    * @throws IOException If a problem was encountered during the reading process. This could include the

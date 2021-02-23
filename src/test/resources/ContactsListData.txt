@@ -1,0 +1,48 @@
+John
+Smith
+123 Main Street
+San Francisco
+CA
+12345
+john.smith@example.com
+555-555-1234
+Jane
+Doe
+456 Elm Avenue
+Seattle
+WA
+67890
+janedoe@mywebsite.org
+555-555-4321
+Raphael
+Washington
+789 Woodward Place
+Philadelphia
+PA
+98765
+washingtonr@website.us
+555-123-1234
+Lorem
+Ipsum
+321 First Street
+Los Angeles
+CA
+54321
+lorem.ipsum@anotherwebsite.com
+555-321-9876
+Jon
+Doe
+654 Second Avenue
+Dallas
+TX
+65432
+jondoe@website.com
+555-987-6543
+George
+Johnson
+987 Third Avenue
+Albany
+NY
+12398
+johnson.george@example.com
+555-111-2222
