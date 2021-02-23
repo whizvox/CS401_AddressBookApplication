@@ -119,6 +119,7 @@ public class Menu {
   }
 
   public static void loadFromFile(AddressBook addressBook) {
+    int prevCount = addressBook.count();
     String fileName = promptLine("File name");
     try {
       addressBook.readFromFile(fileName);
@@ -126,7 +127,8 @@ public class Menu {
       // don't let the parent process deal with the exception
       System.out.println("ERROR: " + e.getMessage());
     }
-    System.out.printf("%d entries read from file%n", addressBook.count());
+    // print the number of added entries
+    System.out.printf("%d entries read from file%n", addressBook.count() - prevCount);
   }
 
   public static void addEntry(AddressBook addressBook) {
@@ -228,9 +230,7 @@ public class Menu {
     List<AddressEntry> entries = addressBook.find(lastNameQuery);
     if (entries.size() > 0) {
       // like the removeEntry method, limit the number of listed contacts to 10 to keep screen clutter to a minimum
-      entries.stream().limit(10).forEachOrdered(e -> {
-        System.out.println(e.toString());
-      });
+      entries.stream().limit(10).forEachOrdered(e -> System.out.println(e.toString()));
       if (entries.size() > 10) {
         System.out.println("... (more than 10 entries were found)");
       }

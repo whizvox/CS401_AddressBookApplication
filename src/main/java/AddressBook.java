@@ -71,8 +71,8 @@ public class AddressBook {
   public void add(AddressEntry entry) {
     addressEntryList.add(entry);
     // immediately sort the list after adding a new entry. this could be better streamlined if addressEntryList were
-    // instead something like a map or a heap
-    addressEntryList.sort(Comparator.comparing(AddressEntry::getLastName));
+    // instead something like a map or a heap. this will sort by last name first, first name second
+    addressEntryList.sort(Comparator.comparing(o -> (o.getLastName() + o.getFirstName())));
   }
 
   /**

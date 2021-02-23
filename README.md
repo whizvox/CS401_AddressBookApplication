@@ -8,4 +8,4 @@ To perform tests:
 
 To run:
 
-    $ ./gradlew run
+    $ ./gradlew run -q --console=plain
