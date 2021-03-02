@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Scanner;
@@ -5,11 +6,15 @@ import java.util.Scanner;
 /**
  * The main class for the address book application.
  * @author Corneilious Eanes
- * @since February 22, 2021
+ * @since March 1, 2021
  */
 public class AddressBookApplication {
 
   private static AddressBook ab;
+
+  public static AddressBook getAddressBook() {
+    return ab;
+  }
 
   /**
    * The main entry point into the address book application.
@@ -17,7 +22,12 @@ public class AddressBookApplication {
    */
   public static void main(String[] args) {
     ab = new AddressBook();
-    Menu.showRootMenu(ab);
+    //Menu.showRootMenu(ab);
+    JFrame frame = new JFrame("Address Book Application");
+    frame.setContentPane(new MainPanel());
+    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    frame.pack();
+    frame.setVisible(true);
   }
 
   /**
