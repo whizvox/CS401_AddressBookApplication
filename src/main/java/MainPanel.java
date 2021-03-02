@@ -1,11 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * @author Corneilious Eanes
- * @since March 1, 2021
+ * @since March 2, 2021
  */
 public class MainPanel extends JPanel {
 
@@ -58,7 +56,7 @@ public class MainPanel extends JPanel {
 
   private void displayContacts() {
     display.setText("");
-    AddressBookApplication.getAddressBook().find("").forEach(entry -> {
+    AddressBookApplication.getInstance().getBook().find("").forEach(entry -> {
       display.append(entry.toString());
       display.append("\n");
     });
@@ -69,7 +67,7 @@ public class MainPanel extends JPanel {
   }
 
   private void readEntriesFromFile() {
-    JFileChooser fileChooser = new JFileChooser(new File(".").getAbsolutePath());
+    /*JFileChooser fileChooser = new JFileChooser(new File(".").getAbsolutePath());
     int result = fileChooser.showOpenDialog(MainPanel.this);
     if (result == JFileChooser.APPROVE_OPTION) {
       try {
@@ -81,7 +79,7 @@ public class MainPanel extends JPanel {
         JOptionPane.showMessageDialog(MainPanel.this, ex.getMessage(), "Could not read file!", JOptionPane.ERROR_MESSAGE);
         ex.printStackTrace();
       }
-    }
+    }*/
   }
 
 }

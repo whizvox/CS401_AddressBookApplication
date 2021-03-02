@@ -1,15 +1,16 @@
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * A data class for storing elements of an address entry.
  *
  * @author Corneilious Eanes
- * @since February 23, 2021
+ * @since March 2, 2021
  */
 public class AddressEntry {
 
-  private String firstName;
-  private String lastName;
+  private UUID id;
+  private Name name;
   private Address address;
   private String phone;
   private String email;
@@ -23,9 +24,9 @@ public class AddressEntry {
    * @param phone The phone number
    * @param email The e-mail address
    */
-  public AddressEntry(String firstName, String lastName, Address address, String phone, String email) {
-    this.firstName = firstName;
-    this.lastName = lastName;
+  public AddressEntry(UUID id, Name name, Address address, String phone, String email) {
+    this.id = id;
+    this.name = name;
     this.address = address;
     this.phone = phone;
     this.email = email;
@@ -38,7 +39,7 @@ public class AddressEntry {
    * are initialized to 0.
    */
   public AddressEntry() {
-    this("", "", new Address(), "", "");
+    this(null, new Name(), new Address(), "", "");
   }
 
   /**
@@ -63,7 +64,7 @@ public class AddressEntry {
    */
   @Override
   public String toString() {
-    return lastName + ", " + firstName + '\n' +
+    return name.getLastName() + ", " + name.getFirstName() + '\n' +
       '\t' + address.getStreet() + '\n' +
       '\t' + address.getCity() + ", " + address.getState() + " " + address.getZip() + '\n' +
       '\t' + email + '\n' +
@@ -84,43 +85,31 @@ public class AddressEntry {
     }
     if (obj instanceof AddressEntry) {
       AddressEntry entry = (AddressEntry) obj;
-      return Objects.equals(entry.firstName, firstName) && Objects.equals(entry.lastName, lastName) &&
+      return Objects.equals(entry.id, id) && Objects.equals(entry.name, name) &&
         Objects.equals(entry.address, address) && Objects.equals(entry.phone, phone) &&
         Objects.equals(entry.email, email);
     }
     return false;
   }
 
-  /**
-   * Get the first name of this contact.
-   * @return This contact's first name
-   */
-  public String getFirstName() {
-    return firstName;
+  public boolean isIdSet() {
+    return id != null;
   }
 
-  /**
-   * Set the first name of this contact.
-   * @param firstName The new first name for this contact
-   */
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
+  public UUID getId() {
+    return id;
   }
 
-  /**
-   * Get the last name of this contact.
-   * @return This contact's last name
-   */
-  public String getLastName() {
-    return lastName;
+  public void setId(UUID id) {
+    this.id = id;
   }
 
-  /**
-   * Set the last name of this contact.
-   * @param lastName The new last name for this contact
-   */
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
+  public Name getName() {
+    return name;
+  }
+
+  public void setName(Name name) {
+    this.name = name;
   }
 
   /**

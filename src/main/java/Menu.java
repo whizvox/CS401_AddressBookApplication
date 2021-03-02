@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -8,7 +7,7 @@ import java.util.function.Function;
 /**
  * A collection of helper methods for use in the application's console menu system.
  * @author Corneilious Eanes
- * @since February 22, 2021
+ * @since March 2, 2021
  */
 public class Menu {
 
@@ -121,12 +120,12 @@ public class Menu {
   public static void loadFromFile(AddressBook addressBook) {
     int prevCount = addressBook.count();
     String fileName = promptLine("File name");
-    try {
+    /*try {
       addressBook.readFromFile(fileName);
     } catch (IOException e) {
       // don't let the parent process deal with the exception
       System.out.println("ERROR: " + e.getMessage());
-    }
+    }*/
     // print the number of added entries
     System.out.printf("%d entries read from file%n", addressBook.count() - prevCount);
   }
@@ -134,8 +133,8 @@ public class Menu {
   public static void addEntry(AddressBook addressBook) {
     try {
       AddressEntry entry = new AddressEntry();
-      entry.setFirstName(prompt_FirstName());
-      entry.setLastName(prompt_LastName());
+      entry.getName().setFirstName(prompt_FirstName());
+      entry.getName().setLastName(prompt_LastName());
       Address address = new Address();
       address.setStreet(prompt_Street());
       address.setCity(prompt_City());

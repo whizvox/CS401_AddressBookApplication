@@ -4,7 +4,7 @@ import java.awt.event.WindowEvent;
 
 /**
  * @author Corneilious Eanes
- * @since March 1, 2021
+ * @since March 2, 2021
  */
 public class CreateContactDialog extends JDialog {
 
@@ -59,7 +59,7 @@ public class CreateContactDialog extends JDialog {
   private void addContact() {
     try {
       AddressEntry contact = createContact();
-      if (contact.getFirstName().isEmpty() || contact.getLastName().isEmpty() ||
+      if (contact.getName().getFirstName().isEmpty() || contact.getName().getLastName().isEmpty() ||
           contact.getAddress().getStreet().isEmpty() || contact.getAddress().getCity().isEmpty() ||
           contact.getAddress().getState().isEmpty() || contact.getPhone().isEmpty() || contact.getEmail().isEmpty()) {
         throw new IllegalArgumentException("All fields must be filled in");
@@ -71,7 +71,7 @@ public class CreateContactDialog extends JDialog {
         throw new IllegalArgumentException("Zip code must be a 5-digit number");
       }
 
-      AddressBookApplication.getAddressBook().add(createContact());
+      AddressBookApplication.getInstance().addContact(contact);
       closeDialog();
     } catch (NumberFormatException e) {
       JOptionPane.showMessageDialog(this, "Invalid ZIP code: must be a 5-digit number", "Could not add contact!", JOptionPane.ERROR_MESSAGE);
@@ -82,8 +82,11 @@ public class CreateContactDialog extends JDialog {
 
   private AddressEntry createContact() {
     return new AddressEntry(
-      firstNameField.getText(),
-      lastNameField.getText(),
+      null,
+      new Name(
+        firstNameField.getText(),
+        lastNameField.getText()
+      ),
       new Address(
         streetField.getText(),
         cityField.getText(),
