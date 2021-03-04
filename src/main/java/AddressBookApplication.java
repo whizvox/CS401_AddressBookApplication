@@ -8,7 +8,7 @@ import java.util.UUID;
 /**
  * The main class for the address book application.
  * @author Corneilious Eanes
- * @since March 2, 2021
+ * @since March 4, 2021
  */
 public class AddressBookApplication {
 
@@ -23,8 +23,8 @@ public class AddressBookApplication {
       Utils.info("Starting address book application...");
       new AddressBookApplication();
     } catch (Exception e) {
-      System.out.println("FATAL ERROR OCCURRED, IMMEDIATELY EXITING APPLICATION");
-      System.out.println("[ERROR] " + e.getMessage());
+      Utils.error("FATAL ERROR OCCURRED, IMMEDIATELY EXITING APPLICATION");
+      Utils.error(e.getMessage());
       e.printStackTrace(System.out);
     }
     Utils.info("Setup complete");
@@ -57,7 +57,7 @@ public class AddressBookApplication {
     }
     Utils.info("Initializing contacts in address book...");
     refreshContactsList();
-    Utils.info("Read {0} contacts", book.count());
+    Utils.info("Read %s contacts", book.count());
 
     Utils.info("Starting Swing application...");
     JFrame frame = new JFrame("Address Book Application");
@@ -96,7 +96,7 @@ public class AddressBookApplication {
           rs.getString("EMAIL")
         );
         book.add(contact);
-        System.out.printf("INFO - Contact added: %s%n", contact.getName());
+        Utils.info("Contact added: %s", contact.getName());
       }
     } catch (SQLException e) {
       throw new RuntimeException("Could not initialize contacts list", e);
@@ -119,9 +119,9 @@ public class AddressBookApplication {
       stmt.execute();
       contact.setId(id);
       if (!book.add(contact)) {
-        Utils.warn("Cache mismatch: Could not add contact to internal cache: {0} ({1})", contact.getId(), contact.getName());
+        Utils.warn("Cache mismatch: Could not add contact to internal cache: %1$s (%2$s)", contact.getId(), contact.getName());
       }
-      Utils.info("Added new contact to database: {0} ({1})", id, contact.getName());
+      Utils.info("Added new contact to database: %1$s (%2$s)", id, contact.getName());
     } catch (SQLException e) {
       throw new RuntimeException("Could not add contact", e);
     }
@@ -134,9 +134,9 @@ public class AddressBookApplication {
       stmt.setString(1, id.toString());
       stmt.execute();
       if (!book.remove(id)) {
-        Utils.warn("Cache mismatch: attempted to remove entry from internal cache: {0}", id);
+        Utils.warn("Cache mismatch: attempted to remove entry from internal cache: %s", id);
       }
-      Utils.info("Removed contact from database: {0}", id);
+      Utils.info("Removed contact from database: %s", id);
     } catch (SQLException e) {
       throw new RuntimeException("Could not remove contact", e);
     }

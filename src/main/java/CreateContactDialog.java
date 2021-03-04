@@ -4,10 +4,11 @@ import java.awt.event.WindowEvent;
 
 /**
  * @author Corneilious Eanes
- * @since March 2, 2021
+ * @since March 4, 2021
  */
 public class CreateContactDialog extends JDialog {
 
+  private MainPanel parent;
   private JPanel main;
   private JTextField firstNameField;
   private JTextField lastNameField;
@@ -20,7 +21,8 @@ public class CreateContactDialog extends JDialog {
   private JButton addButton;
   private JButton cancelButton;
 
-  public CreateContactDialog() {
+  public CreateContactDialog(MainPanel parent) {
+    this.parent = parent;
     main = new JPanel();
     main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
     main.add(new JLabel("First name"));
@@ -72,6 +74,7 @@ public class CreateContactDialog extends JDialog {
       }
 
       AddressBookApplication.getInstance().addContact(contact);
+      parent.displayContacts();
       closeDialog();
     } catch (NumberFormatException e) {
       JOptionPane.showMessageDialog(this, "Invalid ZIP code: must be a 5-digit number", "Could not add contact!", JOptionPane.ERROR_MESSAGE);

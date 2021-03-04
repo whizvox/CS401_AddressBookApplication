@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
  * Stores a list of {@link AddressEntry} objects and several helper methods to manipulate this list, retrieve data from
  * it, or populate it from reading a file.
  * @author Corneilious Eanes
- * @since March 2, 2021
+ * @since March 4, 2021
  */
 public class AddressBook {
 
@@ -35,6 +35,10 @@ public class AddressBook {
    */
   public int count() {
     return addressEntryList.size();
+  }
+
+  public AddressEntry get(UUID id) {
+    return addressEntryList.get(id);
   }
 
   /**
@@ -82,7 +86,7 @@ public class AddressBook {
    * @return A list of all entries that matched the specified query. The list will be empty if none were found.
    */
   public List<AddressEntry> find(String startOfLastName) {
-    return addressEntryList.values().stream()
+    return addressEntryList.values().stream().sorted()
       .filter(entry -> entry.getName().getLastName().regionMatches(true, 0, startOfLastName, 0, startOfLastName.length()))
       .collect(Collectors.toList());
   }

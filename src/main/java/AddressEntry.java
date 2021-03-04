@@ -5,9 +5,9 @@ import java.util.UUID;
  * A data class for storing elements of an address entry.
  *
  * @author Corneilious Eanes
- * @since March 2, 2021
+ * @since March 4, 2021
  */
-public class AddressEntry {
+public class AddressEntry implements Comparable<AddressEntry> {
 
   private UUID id;
   private Name name;
@@ -158,6 +158,11 @@ public class AddressEntry {
    */
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  @Override
+  public int compareTo(AddressEntry other) {
+    return name.compareTo(other.name);
   }
 
 }

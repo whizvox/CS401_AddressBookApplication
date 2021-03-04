@@ -2,9 +2,9 @@ import java.util.Objects;
 
 /**
  * @author Corneilious Eanes
- * @since March 2, 2021
+ * @since March 4, 2021
  */
-public class Name {
+public class Name implements Comparable<Name> {
 
   private String firstName;
   private String lastName;
@@ -46,6 +46,11 @@ public class Name {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
+  }
+
+  @Override
+  public int compareTo(Name other) {
+    return (lastName + firstName).compareTo(other.lastName + other.firstName);
   }
 
 }

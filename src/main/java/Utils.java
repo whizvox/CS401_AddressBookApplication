@@ -1,8 +1,6 @@
-import java.text.MessageFormat;
-
 /**
  * @author Corneilious Eanes
- * @since March 2, 2021
+ * @since March 4, 2021
  */
 public class Utils {
 
@@ -12,7 +10,7 @@ public class Utils {
       LEVEL_ERROR = "ERROR";
 
   private static void log(String level, String pattern, Object... args) {
-    System.out.printf("[%s] %s%n", level, MessageFormat.format(pattern, args));
+    System.out.printf("[%s] %s%n", level, String.format(pattern, args));
   }
 
   public static void info(String pattern, Object... args) {

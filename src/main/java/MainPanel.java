@@ -1,33 +1,36 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.UUID;
+import java.util.Vector;
 
 /**
  * @author Corneilious Eanes
- * @since March 2, 2021
+ * @since March 4, 2021
  */
 public class MainPanel extends JPanel {
 
   private JButton displayButton;
   private JButton newButton;
   private JButton removeButton;
-  private JButton readButton;
   private JScrollPane displayPane;
-  private JTextArea display;
+  private JList<String> display;
+  private ArrayList<UUID> entryIds;
 
   public MainPanel() {
     displayButton = new JButton("Display");
     newButton = new JButton("New");
     removeButton = new JButton("Remove");
-    readButton = new JButton("Read from file");
 
-    display = new JTextArea();
-    display.setEditable(false);
+    display = new JList<>();
+    display.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     displayPane = new JScrollPane(display);
 
+    entryIds = new ArrayList<>();
+
     displayButton.addActionListener(e -> displayContacts());
-    newButton.addActionListener(e -> new CreateContactDialog());
+    newButton.addActionListener(e -> new CreateContactDialog(this));
     removeButton.addActionListener(e -> removeContact());
-    readButton.addActionListener(e -> readEntriesFromFile());
 
     GroupLayout layout = new GroupLayout(this);
     layout.setAutoCreateGaps(true);
@@ -38,7 +41,6 @@ public class MainPanel extends JPanel {
         .addComponent(displayButton)
         .addComponent(newButton)
         .addComponent(removeButton)
-        .addComponent(readButton)
       )
       .addComponent(displayPane)
     );
@@ -47,39 +49,40 @@ public class MainPanel extends JPanel {
         .addComponent(displayButton)
         .addComponent(newButton)
         .addComponent(removeButton)
-        .addComponent(readButton)
       )
       .addComponent(displayPane)
     );
-    setPreferredSize(new Dimension(450, 600));
+    setPreferredSize(new Dimension(750, 450));
+
+    displayContacts();
   }
 
-  private void displayContacts() {
-    display.setText("");
+  public void displayContacts() {
+    Vector<String> entryNames = new Vector<>();
+    entryIds.clear();
     AddressBookApplication.getInstance().getBook().find("").forEach(entry -> {
-      display.append(entry.toString());
-      display.append("\n");
+      entryNames.add(entry.toString().replace("\n", " | ").replace("\t", ""));
+      entryIds.add(entry.getId());
     });
+    display.setListData(entryNames);
   }
 
   private void removeContact() {
-
-  }
-
-  private void readEntriesFromFile() {
-    /*JFileChooser fileChooser = new JFileChooser(new File(".").getAbsolutePath());
-    int result = fileChooser.showOpenDialog(MainPanel.this);
-    if (result == JFileChooser.APPROVE_OPTION) {
-      try {
-        AddressBook ab = AddressBookApplication.getAddressBook();
-        int prev = ab.count();
-        ab.readFromFile(fileChooser.getSelectedFile().getAbsolutePath());
-        JOptionPane.showMessageDialog(MainPanel.this, (ab.count() - prev) + " entries read from file");
-      } catch (IOException ex) {
-        JOptionPane.showMessageDialog(MainPanel.this, ex.getMessage(), "Could not read file!", JOptionPane.ERROR_MESSAGE);
-        ex.printStackTrace();
+    int selected = display.getSelectedIndex();
+    if (selected != -1) {
+      UUID selectedId = entryIds.get(selected);
+      AddressEntry entry = AddressBookApplication.getInstance().getBook().get(selectedId);
+      if (entry == null) {
+        JOptionPane.showMessageDialog(this, "Selected entry does not exist!", "Could not remove contact!", JOptionPane.ERROR_MESSAGE);
+      } else {
+        int result = JOptionPane.showConfirmDialog(this, "Are you sure you wish to delete the contact information for " + entry.getName().toString() + "?", "Confirm deletion", JOptionPane.YES_NO_OPTION);
+        if (result == 0) {
+          AddressBookApplication.getInstance().removeContact(selectedId);
+          JOptionPane.showMessageDialog(this, "Contact deleted", "Contact deleted", JOptionPane.INFORMATION_MESSAGE);
+          displayContacts();
+        }
       }
-    }*/
+    }
   }
 
 }
