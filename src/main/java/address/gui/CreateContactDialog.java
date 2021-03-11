@@ -1,10 +1,17 @@
+package address.gui;
+
+import address.data.Address;
+import address.AddressBookApplication;
+import address.data.AddressEntry;
+import address.data.Name;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 
 /**
  * @author Corneilious Eanes
- * @since March 4, 2021
+ * @since March 11, 2021
  */
 public class CreateContactDialog extends JDialog {
 

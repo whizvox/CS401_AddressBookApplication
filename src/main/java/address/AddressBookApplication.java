@@ -1,3 +1,10 @@
+package address;
+
+import address.data.Address;
+import address.data.AddressEntry;
+import address.data.Name;
+import address.gui.MainPanel;
+
 import javax.swing.*;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,7 +15,7 @@ import java.util.UUID;
 /**
  * The main class for the address book application.
  * @author Corneilious Eanes
- * @since March 4, 2021
+ * @since March 11, 2021
  */
 public class AddressBookApplication {
 
@@ -57,7 +64,7 @@ public class AddressBookApplication {
     }
     Utils.info("Initializing contacts in address book...");
     refreshContactsList();
-    Utils.info("Read %s contacts", book.count());
+    Utils.info("Read %d contacts", book.count());
 
     Utils.info("Starting Swing application...");
     JFrame frame = new JFrame("Address Book Application");

@@ -1,3 +1,5 @@
+package address.data;
+
 import java.util.Objects;
 import java.util.UUID;
 
@@ -5,7 +7,7 @@ import java.util.UUID;
  * A data class for storing elements of an address entry.
  *
  * @author Corneilious Eanes
- * @since March 4, 2021
+ * @since March 11, 2021
  */
 public class AddressEntry implements Comparable<AddressEntry> {
 

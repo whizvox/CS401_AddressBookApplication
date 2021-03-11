@@ -1,3 +1,8 @@
+package address.gui;
+
+import address.AddressBookApplication;
+import address.data.AddressEntry;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -6,7 +11,7 @@ import java.util.Vector;
 
 /**
  * @author Corneilious Eanes
- * @since March 4, 2021
+ * @since March 11, 2021
  */
 public class MainPanel extends JPanel {
 

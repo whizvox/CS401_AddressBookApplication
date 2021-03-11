@@ -1,4 +1,4 @@
-# CS401 Project #2: Address Book Application
+# CS401 Project #2: address.data.Address Book Application
 
 Status: **In-development**
 

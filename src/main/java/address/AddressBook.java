@@ -1,3 +1,7 @@
+package address;
+
+import address.data.AddressEntry;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -5,7 +9,7 @@ import java.util.stream.Collectors;
  * Stores a list of {@link AddressEntry} objects and several helper methods to manipulate this list, retrieve data from
  * it, or populate it from reading a file.
  * @author Corneilious Eanes
- * @since March 4, 2021
+ * @since March 11, 2021
  */
 public class AddressBook {
 
@@ -15,7 +19,7 @@ public class AddressBook {
   private Map<UUID, AddressEntry> addressEntryList;
 
   /**
-   * Constructor for AddressBook. The internal list of address entries defaults to having zero entries.
+   * Constructor for this class. The internal list of address entries defaults to having zero entries.
    */
   public AddressBook() {
     addressEntryList = new HashMap<>();

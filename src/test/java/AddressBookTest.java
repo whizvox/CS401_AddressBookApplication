@@ -1,3 +1,6 @@
+import address.data.Address;
+import address.AddressBook;
+import address.data.AddressEntry;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

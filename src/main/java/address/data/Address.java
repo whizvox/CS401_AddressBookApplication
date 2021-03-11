@@ -1,9 +1,11 @@
+package address.data;
+
 import java.util.Objects;
 
 /**
  * The address class, used to store address-related fields such as street address, city name, state code, and zip code.
  * @author Corneilious Eanes
- * @since February 23, 2021
+ * @since March 11, 2021
  */
 public class Address {
 
