@@ -21,7 +21,7 @@ test {
 }
 
 application {
-  mainClassName = 'AddressBookApplication'
+  mainClassName = 'address.AddressBookApplication'
 }
 run {
   standardInput = System.in
