@@ -49,6 +49,7 @@ public class MainPanel extends JPanel {
         .addComponent(displayButton)
         .addComponent(newButton)
         .addComponent(removeButton)
+              .addComponent(exitButton)
       )
       .addComponent(displayPane)
     );
@@ -57,6 +58,7 @@ public class MainPanel extends JPanel {
         .addComponent(displayButton)
         .addComponent(newButton)
         .addComponent(removeButton)
+              .addComponent(exitButton)
       )
       .addComponent(displayPane)
     );
