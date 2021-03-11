@@ -1,4 +1,4 @@
-# CS401 Project #2: address.data.Address Book Application
+# CS401 Project #2: Address Book Application
 
 Status: **In-development**
 
@@ -15,4 +15,4 @@ To perform tests:
 
 To run:
 
-    $ ./gradlew run -q --console=plain
+    $ ./gradlew run
