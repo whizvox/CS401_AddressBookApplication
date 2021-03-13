@@ -1,3 +1,4 @@
+import address.data.Address;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -6,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 /**
  * Test cases for {@link Address}
  * @author Corneilious Eanes
- * @since February 22, 2021
+ * @since March 11, 2021
  */
 class AddressTest {
 
@@ -19,13 +20,13 @@ class AddressTest {
   }
 
   @Test
-  void testToString() {
+  void _toString() {
     assertEquals(createA().toString(), "123 Main Street\nSan Francisco, CA 12345");
     assertEquals(createB().toString(), "456 Elm Avenue\nSeattle, WA 67890");
   }
 
   @Test
-  void testEquals() {
+  void _equals() {
     Address addressA = createA();
     assertEquals(addressA, addressA);
     assertEquals(createA(), addressA);
@@ -39,13 +40,13 @@ class AddressTest {
   }
 
   @Test
-  void testGetStreet() {
+  void getStreet() {
     assertEquals(createA().getStreet(), "123 Main Street");
     assertEquals(createB().getStreet(), "456 Elm Avenue");
   }
 
   @Test
-  void testSetStreet() {
+  void setStreet() {
     Address address = createA();
     final String newStreet1 = "789 Woodward Place";
     address.setStreet(newStreet1);
@@ -56,13 +57,13 @@ class AddressTest {
   }
 
   @Test
-  void testGetCity() {
+  void getCity() {
     assertEquals(createA().getCity(), "San Francisco");
     assertEquals(createB().getCity(), "Seattle");
   }
 
   @Test
-  void testSetCity() {
+  void setCity() {
     Address address = createA();
     final String newCity1 = "Los Angeles";
     address.setCity(newCity1);
@@ -73,13 +74,13 @@ class AddressTest {
   }
 
   @Test
-  void testGetState() {
+  void getState() {
     assertEquals(createA().getState(), "CA");
     assertEquals(createB().getState(), "WA");
   }
 
   @Test
-  void testSetState() {
+  void setState() {
     Address address = createA();
     final String newState1 = "WA";
     address.setState(newState1);
@@ -90,13 +91,13 @@ class AddressTest {
   }
 
   @Test
-  void testGetZip() {
+  void getZip() {
     assertEquals(createA().getZip(), 12345);
     assertEquals(createB().getZip(), 67890);
   }
 
   @Test
-  void testSetZip() {
+  void setZip() {
     Address address = createA();
     final int newZip1 = 67890;
     address.setZip(newZip1);

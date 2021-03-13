@@ -15,4 +15,4 @@ To perform tests:
 
 To run:
 
-    $ ./gradlew run -q --console=plain
+    $ ./gradlew run

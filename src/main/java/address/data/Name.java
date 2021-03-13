@@ -1,8 +1,10 @@
+package address.data;
+
 import java.util.Objects;
 
 /**
  * @author Corneilious Eanes
- * @since March 4, 2021
+ * @since March 11, 2021
  */
 public class Name implements Comparable<Name> {
 

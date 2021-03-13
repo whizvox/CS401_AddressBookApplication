@@ -13,7 +13,6 @@ public class MainPanel extends JPanel {
   private JButton displayButton;
   private JButton newButton;
   private JButton removeButton;
-  private JButton findButton;
   private JScrollPane displayPane;
   private JList<String> display;
   private ArrayList<UUID> entryIds;
@@ -22,7 +21,6 @@ public class MainPanel extends JPanel {
     displayButton = new JButton("Display");
     newButton = new JButton("New");
     removeButton = new JButton("Remove");
-    findButton = new JButton("Find");
 
     display = new JList<>();
     display.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -33,7 +31,6 @@ public class MainPanel extends JPanel {
     displayButton.addActionListener(e -> displayContacts());
     newButton.addActionListener(e -> new CreateContactDialog(this));
     removeButton.addActionListener(e -> removeContact());
-    findButton.addActionListener(e -> new FindContactDialog(this));
 
     GroupLayout layout = new GroupLayout(this);
     layout.setAutoCreateGaps(true);
