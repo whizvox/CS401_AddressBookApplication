@@ -9,14 +9,12 @@ import javax.swing.*;
 import java.io.FileReader;
 import java.io.*;
 import java.sql.*;
-import java.util.Scanner;
-import java.util.UUID;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * The main class for the address book application.
  * @author Corneilious Eanes
- * @since March 11, 2021
+ * @since March 12, 2021
  */
 public class AddressBookApplication {
 
@@ -151,11 +149,18 @@ public class AddressBookApplication {
     }
   }
 
-  public void findContact(UUID id) {
+  public List<UUID> findContacts(String lastNameQuery) {
     try {
-      PreparedStatement stmt = conn.prepareStatement("SELECT FROM ADDRESSENTRYTABLE WHERE LASTNAME like %?%");
-      stmt.execute();
-    } catch (SQLException e) {
+      ArrayList<UUID> ids = new ArrayList<>();
+      PreparedStatement stmt = conn.prepareStatement("SELECT (id) FROM ADDRESSENTRYTABLE WHERE LASTNAME LIKE ?% ORDER BY LASTNAME, FIRSTNAME");
+      stmt.setString(1, lastNameQuery);
+      ResultSet rs = stmt.executeQuery();
+      while (rs.next()) {
+        String idStr = rs.getString("id");
+        ids.add(UUID.fromString(idStr));
+      }
+      return ids;
+    } catch (SQLException | IllegalArgumentException e) {
       throw new RuntimeException("Could not find contact", e);
     }
   }

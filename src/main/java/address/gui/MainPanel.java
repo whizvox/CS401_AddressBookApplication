@@ -1,3 +1,8 @@
+package address.gui;
+
+import address.AddressBookApplication;
+import address.data.AddressEntry;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -6,13 +11,14 @@ import java.util.Vector;
 
 /**
  * @author Corneilious Eanes
- * @since March 4, 2021
+ * @since March 12, 2021
  */
 public class MainPanel extends JPanel {
 
   private JButton displayButton;
   private JButton newButton;
   private JButton removeButton;
+  private JButton findButton;
   private JScrollPane displayPane;
   private JList<String> display;
   private ArrayList<UUID> entryIds;
@@ -20,6 +26,7 @@ public class MainPanel extends JPanel {
   public MainPanel() {
     displayButton = new JButton("Display");
     newButton = new JButton("New");
+    findButton = new JButton("Find");
     removeButton = new JButton("Remove");
 
     display = new JList<>();
@@ -30,6 +37,7 @@ public class MainPanel extends JPanel {
 
     displayButton.addActionListener(e -> displayContacts());
     newButton.addActionListener(e -> new CreateContactDialog(this));
+    findButton.addActionListener(e -> new FindContactDialog(this));
     removeButton.addActionListener(e -> removeContact());
 
     GroupLayout layout = new GroupLayout(this);
@@ -40,6 +48,7 @@ public class MainPanel extends JPanel {
       .addGroup(layout.createParallelGroup()
         .addComponent(displayButton)
         .addComponent(newButton)
+        .addComponent(findButton)
         .addComponent(removeButton)
       )
       .addComponent(displayPane)
@@ -48,6 +57,7 @@ public class MainPanel extends JPanel {
       .addGroup(layout.createSequentialGroup()
         .addComponent(displayButton)
         .addComponent(newButton)
+        .addComponent(findButton)
         .addComponent(removeButton)
       )
       .addComponent(displayPane)
