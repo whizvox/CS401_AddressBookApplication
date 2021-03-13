@@ -1,9 +1,10 @@
 import javax.swing.*;
 import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.sql.*;
 import java.util.Scanner;
 import java.util.UUID;
+import java.util.Vector;
 
 /**
  * The main class for the address book application.
@@ -28,6 +29,7 @@ public class AddressBookApplication {
       e.printStackTrace(System.out);
     }
     Utils.info("Setup complete");
+
   }
 
   private AddressBook book;
@@ -139,6 +141,15 @@ public class AddressBookApplication {
       Utils.info("Removed contact from database: %s", id);
     } catch (SQLException e) {
       throw new RuntimeException("Could not remove contact", e);
+    }
+  }
+
+  public void findContact(UUID id) {
+    try {
+      PreparedStatement stmt = conn.prepareStatement("SELECT FROM ADDRESSENTRYTABLE WHERE LASTNAME like %?%");
+      stmt.execute();
+    } catch (SQLException e) {
+      throw new RuntimeException("Could not find contact", e);
     }
   }
 

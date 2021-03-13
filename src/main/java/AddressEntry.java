@@ -18,8 +18,8 @@ public class AddressEntry implements Comparable<AddressEntry> {
   /**
    * The "fill-all" constructor of the address entry class. Every passed argument will initialize the corresponding
    * field as-is.
-   * @param firstName The first name
-   * @param lastName The last name
+   * // @param firstName The first name
+   * // @param lastName The last name
    * @param address The address
    * @param phone The phone number
    * @param email The e-mail address
@@ -163,6 +163,11 @@ public class AddressEntry implements Comparable<AddressEntry> {
   @Override
   public int compareTo(AddressEntry other) {
     return name.compareTo(other.name);
+  }
+
+  public interface MyInterface{
+    void method1();
+    void method2();
   }
 
 }
