@@ -1,6 +1,6 @@
 # CS401 Project #2: Address Book Application
 
-Status: **In-development**
+Status: **Feature complete**
 
 ## Database Credentials
 

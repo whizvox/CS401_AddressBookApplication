@@ -14,7 +14,7 @@ import java.util.*;
 /**
  * The main class for the address book application.
  * @author Corneilious Eanes
- * @since March 12, 2021
+ * @since March 15, 2021
  */
 public class AddressBookApplication {
 
@@ -163,6 +163,21 @@ public class AddressBookApplication {
     } catch (SQLException | IllegalArgumentException e) {
       throw new RuntimeException("Could not find contact", e);
     }
+  }
+
+  public void updateContact(AddressEntry contact) throws SQLException {
+    PreparedStatement stmt = conn.prepareStatement("UPDATE ADDRESSENTRYTABLE SET FIRSTNAME=?, LASTNAME=?, STREET=?, CITY=?, STATE=?, ZIP=?, PHONE=?, EMAIL=? WHERE ID=?");
+    stmt.setString(1, contact.getName().getFirstName());
+    stmt.setString(2, contact.getName().getLastName());
+    stmt.setString(3, contact.getAddress().getStreet());
+    stmt.setString(4, contact.getAddress().getCity());
+    stmt.setString(5, contact.getAddress().getState());
+    stmt.setInt(6, contact.getAddress().getZip());
+    stmt.setString(7, contact.getPhone());
+    stmt.setString(8, contact.getEmail());
+    stmt.setString(9, contact.getId().toString());
+    stmt.execute();
+    Utils.info("Contact has been updated: %s (%s)", contact.getId(), contact.getName());
   }
 
   private static AddressBookApplication instance;

@@ -9,8 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Corneilious Eanes, Jenny Vo
- * @since March 12, 2021
+ * Dialog window allowing the user to search through the locally stored {@link AddressEntry} objects in
+ * {@link AddressBookApplication#getBook()}.
+ * @author Corneilious Eanes
+ * @author Jenny Vo
+ * @since March 15, 2021
  */
 public class FindContactDialog extends JDialog {
 

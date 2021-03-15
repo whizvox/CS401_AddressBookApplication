@@ -10,13 +10,16 @@ import java.util.UUID;
 import java.util.Vector;
 
 /**
+ * The landing page of sorts for the application. Gives access to all other parts of the application.
  * @author Corneilious Eanes
- * @since March 12, 2021
+ * @author Mike Langdon
+ * @since March 15, 2021
  */
 public class MainPanel extends JPanel {
 
   private JButton displayButton;
   private JButton newButton;
+  private JButton updateButton;
   private JButton removeButton;
   private JButton findButton;
   private JScrollPane displayPane;
@@ -26,6 +29,7 @@ public class MainPanel extends JPanel {
   public MainPanel() {
     displayButton = new JButton("Display");
     newButton = new JButton("New");
+    updateButton = new JButton("Update");
     findButton = new JButton("Find");
     removeButton = new JButton("Remove");
 
@@ -37,6 +41,7 @@ public class MainPanel extends JPanel {
 
     displayButton.addActionListener(e -> displayContacts());
     newButton.addActionListener(e -> new CreateContactDialog(this));
+    updateButton.addActionListener(e -> updateContact());
     findButton.addActionListener(e -> new FindContactDialog(this));
     removeButton.addActionListener(e -> removeContact());
 
@@ -48,6 +53,7 @@ public class MainPanel extends JPanel {
       .addGroup(layout.createParallelGroup()
         .addComponent(displayButton)
         .addComponent(newButton)
+        .addComponent(updateButton)
         .addComponent(findButton)
         .addComponent(removeButton)
       )
@@ -57,6 +63,7 @@ public class MainPanel extends JPanel {
       .addGroup(layout.createSequentialGroup()
         .addComponent(displayButton)
         .addComponent(newButton)
+        .addComponent(updateButton)
         .addComponent(findButton)
         .addComponent(removeButton)
       )
@@ -75,6 +82,19 @@ public class MainPanel extends JPanel {
       entryIds.add(entry.getId());
     });
     display.setListData(entryNames);
+  }
+
+  private void updateContact() {
+    int selected = display.getSelectedIndex();
+    if (selected != -1) {
+      UUID selectedId = entryIds.get(selected);
+      AddressEntry entry = AddressBookApplication.getInstance().getBook().get(selectedId);
+      if (entry == null) {
+        JOptionPane.showMessageDialog(this, "Selected entry does not exist!", "Could not remove contact!", JOptionPane.ERROR_MESSAGE);
+      } else {
+        new UpdateContactDialog(this, entry);
+      }
+    }
   }
 
   private void removeContact() {
