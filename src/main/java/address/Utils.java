@@ -7,9 +7,11 @@ import java.util.regex.Pattern;
 /**
  * A collection of utility methods used throughout this application.
  * @author Corneilious Eanes
- * @since March 15, 2021
+ * @since March 16, 2021
  */
 public class Utils {
+
+  private Utils() {}
 
   private static final String
       LEVEL_INFO = "INFO",
@@ -36,7 +38,7 @@ public class Utils {
   }
 
   /**
-   * Logs a not-particular-important information message to the console.
+   * Logs a not-particularly-important information message to the console.
    * @param pattern The pattern string
    * @param args The arguments referred to by the pattern string
    * @see #log(String, String, Object...)

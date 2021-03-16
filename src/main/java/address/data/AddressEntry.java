@@ -6,7 +6,7 @@ import java.util.UUID;
 /**
  * A data class for storing elements of an address entry.
  * @author Corneilious Eanes
- * @since March 15, 2021
+ * @since March 16, 2021
  */
 public class AddressEntry implements Comparable<AddressEntry> {
 
@@ -26,6 +26,8 @@ public class AddressEntry implements Comparable<AddressEntry> {
    * field as-is.
    * // @param firstName The first name
    * // @param lastName The last name
+   * @param id The internal ID
+   * @param name The name
    * @param address The address
    * @param phone The phone number
    * @param email The e-mail address

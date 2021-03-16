@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  * Stores a list of {@link AddressEntry} objects and several helper methods to manipulate this list, or retrieve data
  * from it.
  * @author Corneilious Eanes
- * @since March 15, 2021
+ * @since March 16, 2021
  */
 public class AddressBook {
 
@@ -87,6 +87,7 @@ public class AddressBook {
   /**
    * Adds a new address entry to the internal list.
    * @param entry The address entry to add to the book.
+   * @return True if the entry did not encounter an internal ID conflict and was successfully added, false otherwise
    */
   public boolean add(AddressEntry entry) {
     if (!addressEntryList.containsKey(entry.getId())) {

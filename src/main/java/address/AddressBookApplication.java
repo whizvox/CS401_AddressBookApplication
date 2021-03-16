@@ -265,6 +265,9 @@ public class AddressBookApplication {
     Utils.info("Contact has been updated: %s (%s)", contact.getId(), contact.getName());
   }
 
+  /**
+   * Gracefully closes the application
+   */
   public void closeWindow() {
     frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
   }
