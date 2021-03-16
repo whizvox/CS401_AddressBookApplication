@@ -6,10 +6,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Stores a list of {@link AddressEntry} objects and several helper methods to manipulate this list, retrieve data from
- * it, or populate it from reading a file.
+ * Stores a list of {@link AddressEntry} objects and several helper methods to manipulate this list, or retrieve data
+ * from it.
  * @author Corneilious Eanes
- * @since March 11, 2021
+ * @since March 15, 2021
  */
 public class AddressBook {
 
@@ -41,6 +41,11 @@ public class AddressBook {
     return addressEntryList.size();
   }
 
+  /**
+   * Gets a single contact based on the specified ID.
+   * @param id The ID of the contact
+   * @return The contact corresponding to the specified ID, or <code>null</code> if no contact was found with that ID.
+   */
   public AddressEntry get(UUID id) {
     return addressEntryList.get(id);
   }
@@ -59,14 +64,22 @@ public class AddressBook {
   /**
    * Removes an entry based on an equality check with another given {@link AddressEntry} instance. Usually, this would
    * be used after performing a call to {@link #find(String)}, and you would pass an instance returned from that.
-   * @param entry The instance to check against
+   * @param contact The instance to check against
    * @return Whether or not any entries were removed
    * @see #remove(String)
+   * @see #remove(UUID)
    */
   public boolean remove(AddressEntry contact) {
     return addressEntryList.entrySet().removeIf(entry -> entry.getValue().equals(contact));
   }
 
+  /**
+   * Removes an entry based on its ID.
+   * @param id The ID of the contact to remove
+   * @return True if a contact with the specified ID was found and was removed, or false if no contact was found with that ID.
+   * @see #remove(String)
+   * @see #remove(AddressEntry)
+   */
   public boolean remove(UUID id) {
     return addressEntryList.remove(id) != null;
   }
@@ -95,6 +108,10 @@ public class AddressBook {
       .collect(Collectors.toList());
   }
 
+  /**
+   * Clears out all locally-stored contacts. Only use if you really know what you're doing.
+   * @see AddressBookApplication#refreshContactsList()
+   */
   public void clear() {
     addressEntryList.clear();
   }
