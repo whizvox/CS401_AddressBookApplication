@@ -5,6 +5,7 @@ import address.data.AddressEntry;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.Vector;
@@ -22,6 +23,7 @@ public class MainPanel extends JPanel {
   private JButton updateButton;
   private JButton removeButton;
   private JButton findButton;
+  private JButton exitButton;
   private JScrollPane displayPane;
   private JList<String> display;
   private ArrayList<UUID> entryIds;
@@ -32,6 +34,7 @@ public class MainPanel extends JPanel {
     updateButton = new JButton("Update");
     findButton = new JButton("Find");
     removeButton = new JButton("Remove");
+    exitButton = new JButton("Exit");
 
     display = new JList<>();
     display.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -44,6 +47,7 @@ public class MainPanel extends JPanel {
     updateButton.addActionListener(e -> updateContact());
     findButton.addActionListener(e -> new FindContactDialog(this));
     removeButton.addActionListener(e -> removeContact());
+    exitButton.addActionListener(e -> exitApplication());
 
     GroupLayout layout = new GroupLayout(this);
     layout.setAutoCreateGaps(true);
@@ -56,6 +60,7 @@ public class MainPanel extends JPanel {
         .addComponent(updateButton)
         .addComponent(findButton)
         .addComponent(removeButton)
+        .addComponent(exitButton)
       )
       .addComponent(displayPane)
     );
@@ -66,6 +71,7 @@ public class MainPanel extends JPanel {
         .addComponent(updateButton)
         .addComponent(findButton)
         .addComponent(removeButton)
+        .addComponent(exitButton)
       )
       .addComponent(displayPane)
     );
@@ -113,6 +119,11 @@ public class MainPanel extends JPanel {
         }
       }
     }
+  }
+
+  private void exitApplication() {
+    // Gracefully closes the window
+    dispatchEvent(new WindowEvent(AddressBookApplication.getInstance().getFrame(), WindowEvent.WINDOW_CLOSING));
   }
 
 }

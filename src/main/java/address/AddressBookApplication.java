@@ -6,6 +6,8 @@ import address.data.Name;
 import address.gui.MainPanel;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileReader;
 import java.io.*;
 import java.sql.*;
@@ -34,9 +36,9 @@ public class AddressBookApplication {
       e.printStackTrace(System.out);
     }
     Utils.info("Setup complete");
-
   }
 
+  private JFrame frame;
   private AddressBook book;
   private Connection conn;
 
@@ -67,10 +69,24 @@ public class AddressBookApplication {
     Utils.info("Read %d contacts", book.count());
 
     Utils.info("Starting Swing application...");
-    JFrame frame = new JFrame("Address Book Application");
+    frame = new JFrame("Address Book Application");
     frame.setContentPane(new MainPanel());
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.pack();
+
+    // Closes the connection to the remote database when the window is closing
+    frame.addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent event) {
+        try {
+          conn.close();
+          Utils.info("Database connection successfully closed");
+        } catch (SQLException e) {
+          Utils.warn(e, "Could not close database connection");
+        }
+      }
+    });
+
     frame.setVisible(true);
   }
 
@@ -80,6 +96,10 @@ public class AddressBookApplication {
 
   public Connection getConnection() {
     return conn;
+  }
+
+  public JFrame getFrame() {
+    return frame;
   }
 
   public void refreshContactsList() {
