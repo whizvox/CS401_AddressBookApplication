@@ -10,15 +10,17 @@ import javax.swing.*;
 import java.awt.event.WindowEvent;
 
 /**
+ * Dialog window for adding a new contact. If a new contact is successfully added, then the parent window's list of
+ * entries are subsequently updated.
  * @author Corneilious Eanes
  * @since March 15, 2021
  */
 public class CreateContactDialog extends JDialog {
 
+  // size between gaps of UI elements
   private static final int GAP_SIZE = 10;
 
   private MainPanel parent;
-  private JPanel main;
   private JTextField firstNameField;
   private JTextField lastNameField;
   private JTextField streetField;
@@ -28,10 +30,16 @@ public class CreateContactDialog extends JDialog {
   private JTextField emailField;
   private JTextField phoneField;
 
+  /**
+   * Constructor for this dialog. Needs to know about its parent panel to update its contents if a contact is
+   * successfully added. Is automatically visible when a new instance is created.
+   * @param parent The parent of this dialog
+   */
   public CreateContactDialog(MainPanel parent) {
     this.parent = parent;
-    main = new JPanel();
 
+    // Only elements that are required beyond the constructor are present as object fields. In this case, that would
+    // only pertain to text fields.
     JLabel firstNameLabel = new JLabel("First name");
     firstNameField = new JTextField();
     JLabel lastNameLabel = new JLabel("Last name");
@@ -51,7 +59,10 @@ public class CreateContactDialog extends JDialog {
     JButton addButton = new JButton("Add");
     JButton cancelButton = new JButton("Cancel");
 
+    JPanel main = new JPanel();
     GroupLayout layout = new GroupLayout(main);
+    // normally you'd also do GroupLayout#setAutoCreateGaps(true), but the UI looks weird with that enabled, so instead
+    // the gaps between elements are manually added
     layout.setAutoCreateContainerGaps(true);
     layout.setHorizontalGroup(layout.createParallelGroup()
       .addComponent(firstNameLabel)
@@ -70,7 +81,9 @@ public class CreateContactDialog extends JDialog {
       .addComponent(phoneField)
       .addComponent(emailLabel)
       .addComponent(emailField)
+      // the TRAILING alignment means that this group is right-aligned
       .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+        // make the gap significantly bigger so the UI isn't so cramped
         .addGap(GAP_SIZE * 4)
         .addComponent(cancelButton)
         .addGap(GAP_SIZE)
@@ -78,6 +91,7 @@ public class CreateContactDialog extends JDialog {
       )
     );
     layout.setVerticalGroup(layout.createSequentialGroup()
+      // gaps are only added between fields of one property and labels of the next
       .addComponent(firstNameLabel)
       .addComponent(firstNameField)
       .addGap(GAP_SIZE)
@@ -113,16 +127,22 @@ public class CreateContactDialog extends JDialog {
 
     main.setLayout(layout);
     setContentPane(main);
-
     setTitle("Create contact");
     pack();
     setVisible(true);
   }
 
+  /**
+   * Gracefully closes this dialog via event dispatching.
+   */
   private void closeDialog() {
     dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
   }
 
+  /**
+   * Attempt to add a new contact to the remote and local databases based on the information given in the provided
+   * text fields.
+   */
   private void addContact() {
     try {
       AddressEntry contact = createContact();
@@ -134,6 +154,12 @@ public class CreateContactDialog extends JDialog {
     }
   }
 
+  /**
+   * Creates a new contact object based on the information given in the provided text fields.
+   * @return A new instance of address entry, assuming that the entry is a valid one
+   * @throws IllegalArgumentException If the given information does not constitue a valid address entry
+   * @see Utils#validateAddressEntry(AddressEntry)
+   */
   private AddressEntry createContact() throws IllegalArgumentException {
     int zip;
     try {

@@ -17,20 +17,19 @@ import java.util.List;
  */
 public class FindContactDialog extends JDialog {
 
-  private MainPanel parent;
-  private JPanel main;
   private JTextField findField;
   private JButton searchButton;
   private JButton cancelButton;
   private JList<String> displayList;
   private JTextArea contactInfoArea;
 
+  // used to keep track of the listed address entries
   private List<AddressEntry> listData;
 
-  public FindContactDialog(MainPanel parent) {
-    this.parent = parent;
-    main = new JPanel();
-
+  /**
+   * Constructor for this dialog. Is automatically visible when a new instance is created.
+   */
+  public FindContactDialog() {
     displayList = new JList<>();
     displayList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     JScrollPane displayPane = new JScrollPane(displayList);
@@ -47,6 +46,7 @@ public class FindContactDialog extends JDialog {
     searchButton.addActionListener(e -> searchForContacts());
     cancelButton.addActionListener(e -> closeDialog());
 
+    JPanel main = new JPanel();
     GroupLayout layout = new GroupLayout(main);
     layout.setAutoCreateGaps(true);
     layout.setAutoCreateContainerGaps(true);
@@ -82,6 +82,9 @@ public class FindContactDialog extends JDialog {
     setVisible(true);
   }
 
+  /**
+   * Will update the contact info text area whenever the user selects a new entry in the list.
+   */
   private void updateContactInfoArea() {
     int selected = displayList.getSelectedIndex();
     if (selected != -1) {
@@ -90,6 +93,9 @@ public class FindContactDialog extends JDialog {
     }
   }
 
+  /**
+   * Queries the local database and updates the list accordingly.
+   */
   private void searchForContacts() {
     // check to see if input last name matches any of the entries
     String lastNameQuery = findField.getText();
@@ -101,6 +107,9 @@ public class FindContactDialog extends JDialog {
     }
   }
 
+  /**
+   * Gracefully closes this dialog
+   */
   private void closeDialog() {
     dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
   }

@@ -16,13 +16,15 @@ import java.sql.SQLException;
  * be updated in the parent window.
  * @author Corneilious Eanes
  * @since March 15, 2021
+ * @see CreateContactDialog
  */
 public class UpdateContactDialog extends JDialog {
+  // This window looks and functions almost exactly like CreateContactDialog, so any presumably confusing code will
+  // probably be explained there.
 
   private static final int GAP_SIZE = 10;
 
   private MainPanel parent;
-  private JPanel main;
   private AddressEntry origEntry;
   private JTextField firstNameField;
   private JTextField lastNameField;
@@ -32,13 +34,16 @@ public class UpdateContactDialog extends JDialog {
   private JTextField zipField;
   private JTextField emailField;
   private JTextField phoneField;
-  private JButton updateButton;
-  private JButton cancelButton;
 
+  /**
+   * Constructor for this dialog. Is automatically visible when a new instance is created.
+   * @param parent The parent panel
+   * @param entry The entry the user wants to update
+   */
   public UpdateContactDialog(MainPanel parent, AddressEntry entry) {
     this.parent = parent;
     this.origEntry = entry;
-    main = new JPanel();
+
     JLabel firstNameLabel = new JLabel("First name");
     firstNameField = new JTextField(origEntry.getName().getFirstName());
     JLabel lastNameLabel = new JLabel("Last name");
@@ -58,6 +63,7 @@ public class UpdateContactDialog extends JDialog {
     JButton updateButton = new JButton("Update");
     JButton cancelButton = new JButton("Cancel");
 
+    JPanel main = new JPanel();
     GroupLayout layout = new GroupLayout(main);
     layout.setAutoCreateContainerGaps(true);
     layout.setHorizontalGroup(layout.createParallelGroup()
@@ -120,16 +126,31 @@ public class UpdateContactDialog extends JDialog {
 
     main.setLayout(layout);
     setContentPane(main);
-
     setTitle("Update contact");
     pack();
     setVisible(true);
   }
 
+  /**
+   * Gracefully closes this dialog
+   */
   private void closeDialog() {
     dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
   }
 
+  /**
+   * Attempts to update the specified contact given the information provided by the user via the text fields. The
+   * contact information (both local and remote) will not be updated if one of the following conditions are reached:
+   * <ul>
+   *   <li>The user did not provide information sufficient for a valid contact</li>
+   *   <li>No changes are detected between the original contact and the user-provided information</li>
+   *   <li>Attempting to update the remote database results in an exception being thrown</li>
+   * </ul>
+   * If any of these conditions are reached, the user is notified about it via a message dialog, and more details about
+   * the condition are printed to the console. Otherwise, both remote and local databases are successfully updated and
+   * then dialog automatically closes.
+   * @see #createContact()
+   */
   private void updateContactInformation() {
     AddressEntry updatedEntry;
     try {
@@ -149,6 +170,7 @@ public class UpdateContactDialog extends JDialog {
       JOptionPane.showMessageDialog(this, "Could not update contact in remote database! Check the console for more details.", "Could not update contact", JOptionPane.ERROR_MESSAGE);
       return;
     }
+    // there is no update method in AddressBook, so just delete and add the contact instead
     AddressBook book = AddressBookApplication.getInstance().getBook();
     book.remove(updatedEntry.getId());
     book.add(updatedEntry);
@@ -157,6 +179,12 @@ public class UpdateContactDialog extends JDialog {
     closeDialog();
   }
 
+  /**
+   * Creates a new address entry instance based on the information the user provided via the text fields.
+   * @return A contact based on the user-provided information
+   * @throws IllegalArgumentException If the user-provided information is deemed invalid
+   * @see Utils#validateAddressEntry(AddressEntry)
+   */
   private AddressEntry createContact() throws IllegalArgumentException {
     int zip;
     try {
