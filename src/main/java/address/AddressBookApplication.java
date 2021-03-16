@@ -9,12 +9,14 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileReader;
-import java.io.*;
+import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.UUID;
 
 /**
  * Both stores the main method for the application and acts as the main container for all objects in the
@@ -261,6 +263,10 @@ public class AddressBookApplication {
     stmt.setString(9, contact.getId().toString());
     stmt.execute();
     Utils.info("Contact has been updated: %s (%s)", contact.getId(), contact.getName());
+  }
+
+  public void closeWindow() {
+    frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
   }
 
   /**

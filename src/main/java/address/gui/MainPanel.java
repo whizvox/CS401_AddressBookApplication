@@ -5,7 +5,6 @@ import address.data.AddressEntry;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.Vector;
@@ -18,27 +17,24 @@ import java.util.Vector;
  */
 public class MainPanel extends JPanel {
 
-  private JButton displayButton;
-  private JButton newButton;
-  private JButton updateButton;
-  private JButton removeButton;
-  private JButton findButton;
-  private JButton exitButton;
-  private JScrollPane displayPane;
-  private JList<String> display;
+  private JTextArea contactInfoArea;
+  private JList<String> displayList;
   private ArrayList<UUID> entryIds;
 
   public MainPanel() {
-    displayButton = new JButton("Display");
-    newButton = new JButton("New");
-    updateButton = new JButton("Update");
-    findButton = new JButton("Find");
-    removeButton = new JButton("Remove");
-    exitButton = new JButton("Exit");
+    JButton displayButton = new JButton("Display");
+    JButton newButton = new JButton("New");
+    JButton updateButton = new JButton("Update");
+    JButton findButton = new JButton("Find");
+    JButton removeButton = new JButton("Remove");
+    JButton exitButton = new JButton("Exit");
+    contactInfoArea = new JTextArea();
+    contactInfoArea.setEditable(false);
+    JScrollPane contactInfoPane = new JScrollPane(contactInfoArea);
 
-    display = new JList<>();
-    display.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    displayPane = new JScrollPane(display);
+    displayList = new JList<>();
+    displayList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    JScrollPane displayPane = new JScrollPane(displayList);
 
     entryIds = new ArrayList<>();
 
@@ -48,23 +44,17 @@ public class MainPanel extends JPanel {
     findButton.addActionListener(e -> new FindContactDialog(this));
     removeButton.addActionListener(e -> removeContact());
     exitButton.addActionListener(e -> exitApplication());
+    displayList.addListSelectionListener(e -> updateContactInfoArea());
 
     GroupLayout layout = new GroupLayout(this);
     layout.setAutoCreateGaps(true);
     layout.setAutoCreateContainerGaps(true);
     setLayout(layout);
-    layout.setHorizontalGroup(layout.createSequentialGroup()
-      .addGroup(layout.createParallelGroup()
-        .addComponent(displayButton)
-        .addComponent(newButton)
-        .addComponent(updateButton)
-        .addComponent(findButton)
-        .addComponent(removeButton)
-        .addComponent(exitButton)
+    layout.setHorizontalGroup(layout.createParallelGroup()
+      .addGroup(layout.createSequentialGroup()
+        .addComponent(displayPane, 75, 100, 300)
+        .addComponent(contactInfoPane, 100, 150, 500)
       )
-      .addComponent(displayPane)
-    );
-    layout.setVerticalGroup(layout.createParallelGroup()
       .addGroup(layout.createSequentialGroup()
         .addComponent(displayButton)
         .addComponent(newButton)
@@ -73,9 +63,22 @@ public class MainPanel extends JPanel {
         .addComponent(removeButton)
         .addComponent(exitButton)
       )
-      .addComponent(displayPane)
     );
-    setPreferredSize(new Dimension(750, 450));
+    layout.setVerticalGroup(layout.createSequentialGroup()
+      .addGroup(layout.createParallelGroup()
+        .addComponent(displayPane)
+        .addComponent(contactInfoPane)
+      )
+      .addGroup(layout.createParallelGroup()
+        .addComponent(displayButton)
+        .addComponent(newButton)
+        .addComponent(updateButton)
+        .addComponent(findButton)
+        .addComponent(removeButton)
+        .addComponent(exitButton)
+      )
+    );
+    setPreferredSize(new Dimension(500, 300));
 
     displayContacts();
   }
@@ -84,46 +87,50 @@ public class MainPanel extends JPanel {
     Vector<String> entryNames = new Vector<>();
     entryIds.clear();
     AddressBookApplication.getInstance().getBook().find("").forEach(entry -> {
-      entryNames.add(entry.toString().replace("\n", " | ").replace("\t", ""));
+      entryNames.add(entry.getName().toString());
       entryIds.add(entry.getId());
     });
-    display.setListData(entryNames);
+    displayList.setListData(entryNames);
+  }
+
+  private AddressEntry getSelectedEntry() {
+    int selected = displayList.getSelectedIndex();
+    if (selected != -1) {
+      UUID selectedId = entryIds.get(selected);
+      return AddressBookApplication.getInstance().getBook().get(selectedId);
+    }
+    return null;
+  }
+
+  private void updateContactInfoArea() {
+    AddressEntry entry = getSelectedEntry();
+    if (entry != null) {
+      contactInfoArea.setText(entry.toString().replace("\t", ""));
+    }
   }
 
   private void updateContact() {
-    int selected = display.getSelectedIndex();
-    if (selected != -1) {
-      UUID selectedId = entryIds.get(selected);
-      AddressEntry entry = AddressBookApplication.getInstance().getBook().get(selectedId);
-      if (entry == null) {
-        JOptionPane.showMessageDialog(this, "Selected entry does not exist!", "Could not remove contact!", JOptionPane.ERROR_MESSAGE);
-      } else {
-        new UpdateContactDialog(this, entry);
-      }
+    AddressEntry entry = getSelectedEntry();
+    if (entry != null) {
+      new UpdateContactDialog(this, entry);
     }
   }
 
   private void removeContact() {
-    int selected = display.getSelectedIndex();
-    if (selected != -1) {
-      UUID selectedId = entryIds.get(selected);
-      AddressEntry entry = AddressBookApplication.getInstance().getBook().get(selectedId);
-      if (entry == null) {
-        JOptionPane.showMessageDialog(this, "Selected entry does not exist!", "Could not remove contact!", JOptionPane.ERROR_MESSAGE);
-      } else {
-        int result = JOptionPane.showConfirmDialog(this, "Are you sure you wish to delete the contact information for " + entry.getName().toString() + "?", "Confirm deletion", JOptionPane.YES_NO_OPTION);
-        if (result == 0) {
-          AddressBookApplication.getInstance().removeContact(selectedId);
-          JOptionPane.showMessageDialog(this, "Contact deleted", "Contact deleted", JOptionPane.INFORMATION_MESSAGE);
-          displayContacts();
-        }
+    AddressEntry entry = getSelectedEntry();
+    if (entry != null) {
+      int result = JOptionPane.showConfirmDialog(this, "Are you sure you wish to delete the contact information for " + entry.getName().toString() + "?", "Confirm deletion", JOptionPane.YES_NO_OPTION);
+      if (result == 0) {
+        AddressBookApplication.getInstance().removeContact(entry.getId());
+        JOptionPane.showMessageDialog(this, "Contact deleted", "Contact deleted", JOptionPane.INFORMATION_MESSAGE);
+        displayContacts();
       }
     }
   }
 
   private void exitApplication() {
     // Gracefully closes the window
-    dispatchEvent(new WindowEvent(AddressBookApplication.getInstance().getFrame(), WindowEvent.WINDOW_CLOSING));
+    AddressBookApplication.getInstance().closeWindow();
   }
 
 }

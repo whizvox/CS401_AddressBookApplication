@@ -23,34 +23,77 @@ public class FindContactDialog extends JDialog {
   private JButton searchButton;
   private JButton cancelButton;
   private JList<String> displayList;
+  private JTextArea contactInfoArea;
 
   private List<AddressEntry> listData;
 
   public FindContactDialog(MainPanel parent) {
     this.parent = parent;
     main = new JPanel();
-    main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
-    main.add(new JLabel("Lookup Last Name: "));
-    main.add(findField = new JTextField());
-    JPanel buttonPanel = new JPanel();
-    buttonPanel.add(searchButton = new JButton("Search"));
-    buttonPanel.add(cancelButton = new JButton("Cancel"));
-    main.add(buttonPanel);
-    listData = new ArrayList<>();
+
     displayList = new JList<>();
-    main.add(new JScrollPane(displayList));
+    displayList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    JScrollPane displayPane = new JScrollPane(displayList);
+    contactInfoArea = new JTextArea();
+    contactInfoArea.setEditable(false);
+    JScrollPane contactInfoPane = new JScrollPane(contactInfoArea);
+    JLabel queryLabel = new JLabel("Lookup last name:");
+    findField = new JTextField();
+    searchButton = new JButton("Search");
+    cancelButton = new JButton("Cancel");
+
+    listData = new ArrayList<>();
+    displayList.addListSelectionListener(e -> updateContactInfoArea());
     searchButton.addActionListener(e -> searchForContacts());
     cancelButton.addActionListener(e -> closeDialog());
 
+    GroupLayout layout = new GroupLayout(main);
+    layout.setAutoCreateGaps(true);
+    layout.setAutoCreateContainerGaps(true);
+    layout.setHorizontalGroup(layout.createParallelGroup()
+      .addGroup(layout.createSequentialGroup()
+        .addComponent(displayPane, 50, 150, 200)
+        .addComponent(contactInfoPane, 100, 200, 500)
+      )
+      .addComponent(queryLabel)
+      .addGroup(layout.createSequentialGroup()
+        .addComponent(findField)
+        .addComponent(searchButton)
+        .addComponent(cancelButton)
+      )
+    );
+    layout.setVerticalGroup(layout.createSequentialGroup()
+      .addGroup(layout.createParallelGroup()
+        .addComponent(displayPane)
+        .addComponent(contactInfoPane)
+      )
+      .addComponent(queryLabel)
+      .addGroup(layout.createParallelGroup()
+        .addComponent(findField)
+        .addComponent(searchButton)
+        .addComponent(cancelButton)
+      )
+    );
+
+    main.setLayout(layout);
     setContentPane(main);
     pack();
+    setTitle("Find contact");
     setVisible(true);
+  }
+
+  private void updateContactInfoArea() {
+    int selected = displayList.getSelectedIndex();
+    if (selected != -1) {
+      AddressEntry entry = listData.get(selected);
+      contactInfoArea.setText(entry.toString().replace("\t", ""));
+    }
   }
 
   private void searchForContacts() {
     // check to see if input last name matches any of the entries
     String lastNameQuery = findField.getText();
-    if (!findField.getText().isEmpty()) {
+    if (!lastNameQuery.isEmpty()) {
       List<AddressEntry> contacts = AddressBookApplication.getInstance().getBook().find(lastNameQuery);
       listData.clear();
       listData.addAll(contacts);

@@ -8,7 +8,6 @@ import address.data.AddressEntry;
 import address.data.Name;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
@@ -19,6 +18,8 @@ import java.sql.SQLException;
  * @since March 15, 2021
  */
 public class UpdateContactDialog extends JDialog {
+
+  private static final int GAP_SIZE = 10;
 
   private MainPanel parent;
   private JPanel main;
@@ -38,40 +39,89 @@ public class UpdateContactDialog extends JDialog {
     this.parent = parent;
     this.origEntry = entry;
     main = new JPanel();
-    main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
-    main.add(new JLabel("First name"));
-    main.add(firstNameField = new JTextField());
-    main.add(new JLabel("Last name"));
-    main.add(lastNameField = new JTextField());
-    main.add(new JLabel("Street address"));
-    main.add(streetField = new JTextField());
-    main.add(new JLabel("City name"));
-    main.add(cityField = new JTextField());
-    main.add(new JLabel("State code"));
-    main.add(stateField = new JTextField());
-    main.add(new JLabel("Zip code"));
-    main.add(zipField = new JTextField());
-    main.add(new JLabel("Email address"));
-    main.add(emailField = new JTextField());
-    main.add(new JLabel("Phone number"));
-    main.add(phoneField = new JTextField());
-    main.add(updateButton = new JButton("Update"));
-    main.add(cancelButton = new JButton("Cancel"));
-    main.setPreferredSize(new Dimension(300, 400));
+    JLabel firstNameLabel = new JLabel("First name");
+    firstNameField = new JTextField(origEntry.getName().getFirstName());
+    JLabel lastNameLabel = new JLabel("Last name");
+    lastNameField = new JTextField(origEntry.getName().getLastName());
+    JLabel streetLabel = new JLabel("Street address");
+    streetField = new JTextField(origEntry.getAddress().getStreet());
+    JLabel cityLabel = new JLabel("City name");
+    cityField = new JTextField(origEntry.getAddress().getCity());
+    JLabel stateLabel = new JLabel("State code");
+    stateField = new JTextField(origEntry.getAddress().getState());
+    JLabel zipLabel = new JLabel("Zip code");
+    zipField = new JTextField(Integer.toString(origEntry.getAddress().getZip()));
+    JLabel emailLabel = new JLabel("Email address");
+    emailField = new JTextField(origEntry.getEmail());
+    JLabel phoneLabel = new JLabel("Phone number");
+    phoneField = new JTextField(origEntry.getPhone());
+    JButton updateButton = new JButton("Update");
+    JButton cancelButton = new JButton("Cancel");
+
+    GroupLayout layout = new GroupLayout(main);
+    layout.setAutoCreateContainerGaps(true);
+    layout.setHorizontalGroup(layout.createParallelGroup()
+      .addComponent(firstNameLabel)
+      .addComponent(firstNameField)
+      .addComponent(lastNameLabel)
+      .addComponent(lastNameField)
+      .addComponent(streetLabel)
+      .addComponent(streetField)
+      .addComponent(cityLabel)
+      .addComponent(cityField)
+      .addComponent(stateLabel)
+      .addComponent(stateField)
+      .addComponent(zipLabel)
+      .addComponent(zipField)
+      .addComponent(phoneLabel)
+      .addComponent(phoneField)
+      .addComponent(emailLabel)
+      .addComponent(emailField)
+      .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+        .addGap(GAP_SIZE * 4)
+        .addComponent(cancelButton)
+        .addGap(GAP_SIZE)
+        .addComponent(updateButton)
+      )
+    );
+    layout.setVerticalGroup(layout.createSequentialGroup()
+      .addComponent(firstNameLabel)
+      .addComponent(firstNameField)
+      .addGap(GAP_SIZE)
+      .addComponent(lastNameLabel)
+      .addComponent(lastNameField)
+      .addGap(GAP_SIZE)
+      .addComponent(streetLabel)
+      .addComponent(streetField)
+      .addGap(GAP_SIZE)
+      .addComponent(cityLabel)
+      .addComponent(cityField)
+      .addGap(GAP_SIZE)
+      .addComponent(stateLabel)
+      .addComponent(stateField)
+      .addGap(GAP_SIZE)
+      .addComponent(zipLabel)
+      .addComponent(zipField)
+      .addGap(GAP_SIZE)
+      .addComponent(phoneLabel)
+      .addComponent(phoneField)
+      .addGap(GAP_SIZE)
+      .addComponent(emailLabel)
+      .addComponent(emailField)
+      .addGap(GAP_SIZE)
+      .addGroup(layout.createParallelGroup()
+        .addComponent(cancelButton)
+        .addComponent(updateButton)
+      )
+    );
 
     updateButton.addActionListener(e -> updateContactInformation());
     cancelButton.addActionListener(e -> closeDialog());
 
-    firstNameField.setText(origEntry.getName().getFirstName());
-    lastNameField.setText(origEntry.getName().getLastName());
-    streetField.setText(origEntry.getAddress().getStreet());
-    cityField.setText(origEntry.getAddress().getCity());
-    stateField.setText(origEntry.getAddress().getState());
-    zipField.setText(Integer.toString(origEntry.getAddress().getZip()));
-    phoneField.setText(origEntry.getPhone());
-    emailField.setText(origEntry.getEmail());
-
+    main.setLayout(layout);
     setContentPane(main);
+
+    setTitle("Update contact");
     pack();
     setVisible(true);
   }
