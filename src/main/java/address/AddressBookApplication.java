@@ -73,6 +73,7 @@ public class AddressBookApplication {
     // reads a file called "credentials.txt" from the project root directory. this stores the username and password
     // needed to connect to the remote database.
     if (!Files.exists(Paths.get("credentials.txt"))) {
+      JOptionPane.showMessageDialog(null, "Could not open credentials.txt", "Cannot open file", JOptionPane.ERROR_MESSAGE);
       throw new RuntimeException("Could not connect to database as credentials.txt is missing");
     }
     String username;
@@ -82,6 +83,8 @@ public class AddressBookApplication {
       username = scanner.nextLine();
       password = scanner.nextLine();
     } catch (IOException e) {
+      JOptionPane.showMessageDialog(null, "Could not read credentials.txt", "Cannot read file", JOptionPane.ERROR_MESSAGE);
+
       throw new RuntimeException("Could not read credentials", e);
     }
 
@@ -91,6 +94,8 @@ public class AddressBookApplication {
         username, password);
       Utils.info("Connection successful");
     } catch (SQLException e) {
+      JOptionPane.showMessageDialog(null, "Invalid username/password.  Logon denied", "Invalid logon", JOptionPane.ERROR_MESSAGE);
+
       throw new RuntimeException("Could not establish connection to database server", e);
     }
     Utils.info("Initializing contacts in address book...");
