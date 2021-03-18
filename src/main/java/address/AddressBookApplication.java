@@ -22,7 +22,8 @@ import java.util.UUID;
  * Both stores the main method for the application and acts as the main container for all objects in the
  * application.
  * @author Corneilious Eanes
- * @since March 15, 2021
+ * @author Michael Langdon
+ * @since March 17, 2021
  */
 public class AddressBookApplication {
 
